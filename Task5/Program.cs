@@ -4,9 +4,8 @@ class Program
 {
     static void Main()
     {
-        int nomer = 5;
+        int nomer = 5; 
         int n = 5;
-
         int[,] matrix = new int[n, n];
         Random rnd = new Random(nomer);
 
@@ -18,48 +17,50 @@ class Program
             }
         }
 
-        Console.WriteLine("Бастапқы матрица:");
+        Console.WriteLine("Матрица (5x5):");
         PrintMatrix(matrix);
 
-        int[] B = FindNegativeRows(matrix);
+        
+        int[] bArray = GetRowNegativeFlagArray(matrix);
 
-        Console.WriteLine("\nB массиві:");
-        for (int i = 0; i < B.Length; i++)
-        {
-            Console.Write(B[i] + " ");
-        }
+        Console.WriteLine("\nB массиві (әр жолда теріс элементтің бар-жоғы: 1 - бар, 0 - жоқ):");
+        Console.WriteLine(string.Join(", ", bArray));
     }
 
-    static void PrintMatrix(int[,] m)
+    static void PrintMatrix(int[,] matrix)
     {
-        for (int i = 0; i < m.GetLength(0); i++)
+        int rows = matrix.GetLength(0);
+        int cols = matrix.GetLength(1);
+
+        for (int i = 0; i < rows; i++)
         {
-            for (int j = 0; j < m.GetLength(1); j++)
+            for (int j = 0; j < cols; j++)
             {
-                Console.Write($"{m[i, j],4}");
+                Console.Write($"{matrix[i, j],4} ");
             }
             Console.WriteLine();
         }
     }
-
-    static int[] FindNegativeRows(int[,] m)
+    static int[] GetRowNegativeFlagArray(int[,] matrix)
     {
-        int[] B = new int[m.GetLength(0)];
+        int rows = matrix.GetLength(0);
+        int cols = matrix.GetLength(1);
+        int[] b = new int[rows];
 
-        for (int i = 0; i < m.GetLength(0); i++)
+        for (int i = 0; i < rows; i++)
         {
-            B[i] = 0;
-
-            for (int j = 0; j < m.GetLength(1); j++)
+            bool hasNegative = false;
+            for (int j = 0; j < cols; j++)
             {
-                if (m[i, j] < 0)
+                if (matrix[i, j] < 0)
                 {
-                    B[i] = 1;
-                    break;
+                    hasNegative = true;
+                    break; 
                 }
             }
+            b[i] = hasNegative ? 1 : 0;
         }
 
-        return B;
+        return b;
     }
 }
